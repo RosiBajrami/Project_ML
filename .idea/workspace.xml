@@ -4,19 +4,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0a51348-a5a7-4130-91f4-dff5bbcfac0f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Project_ML.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Raw_Datasets/test.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Raw_Datasets/train.csv" afterDir="false" />
+    <list default="true" id="d0a51348-a5a7-4130-91f4-dff5bbcfac0f" name="Changes" comment="Initial Commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalization/normalization.py" beforeDir="false" afterPath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalization/normalization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalized_Datasets/Test/raw_decimal_scaled.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalized_Datasets/Test/raw_min_max_scaled.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalized_Datasets/Test/raw_z_score_scaled.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalized_Datasets/Test/test_decimal_scaled.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalized_Datasets/Test/test_min_max_scaled.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalized_Datasets/Test/test_z_score_scaled.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalized_Datasets/Train/raw_decimal_scaled.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalized_Datasets/Train/raw_min_max_scaled.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalized_Datasets/Train/raw_z_score_scaled.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalized_Datasets/Train/train_decimal_scaled.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalized_Datasets/Train/train_min_max_scaled.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalized_Datasets/Train/train_z_score_scaled.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Raw_Datasets/test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Raw_Datasets/test.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Raw_Datasets/train.csv" beforeDir="false" afterPath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Raw_Datasets/train.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentsAcademicClassification_ML/Training/DecisionTree.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../Project_ML\exportToHTML" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -28,12 +46,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "RosiBajrami"
+  }
+}]]></component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/RosiBajrami/Project_ML.git",
     "accountId": "117e8094-4e0b-4bd5-bcb2-ab458cc9dcce"
   }
 }]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -46,7 +73,12 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.DecisionTree.executor": "Run",
+    "Python.Hybrid1.executor": "Run",
+    "Python.LightGB.executor": "Run",
+    "Python.RandomForest.executor": "Run",
+    "Python.SVM.executor": "Run",
     "Python.normalization.executor": "Run",
+    "Python.svm.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
@@ -57,7 +89,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.Mappings",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -82,8 +114,25 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1746313344583</updated>
-      <workItem from="1746313345728" duration="11137000" />
+      <workItem from="1746313345728" duration="36359000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial Commit">
+      <option name="closed" value="true" />
+      <created>1746325045966</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1746325045966</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Initial Commit">
+      <option name="closed" value="true" />
+      <created>1746325173579</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1746325173579</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -100,8 +149,17 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial Commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial Commit" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Project_ML$DecisionTree.coverage" NAME="DecisionTree Coverage Results" MODIFIED="1746321207509" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/StudentsAcademicClassification_ML/Training" />
-    <SUITE FILE_PATH="coverage/Project_ML$normalization.coverage" NAME="normalization Coverage Results" MODIFIED="1746320822109" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalization" />
+    <SUITE FILE_PATH="coverage/Project_ML$LightGB.coverage" NAME="LightGB Coverage Results" MODIFIED="1746832178537" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/StudentsAcademicClassification_ML/Training" />
+    <SUITE FILE_PATH="coverage/Project_ML$Hybrid1.coverage" NAME="Hybrid1 Coverage Results" MODIFIED="1746834839825" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/StudentsAcademicClassification_ML/Training" />
+    <SUITE FILE_PATH="coverage/Project_ML$DecisionTree.coverage" NAME="DecisionTree Coverage Results" MODIFIED="1746828334328" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/StudentsAcademicClassification_ML/Training" />
+    <SUITE FILE_PATH="coverage/Project_ML$svm.coverage" NAME="svm Coverage Results" MODIFIED="1746831511994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/StudentsAcademicClassification_ML/Training" />
+    <SUITE FILE_PATH="coverage/Project_ML$RandomForest.coverage" NAME="RandomForest Coverage Results" MODIFIED="1746831310911" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/StudentsAcademicClassification_ML/Training" />
+    <SUITE FILE_PATH="coverage/Project_ML$normalization.coverage" NAME="normalization Coverage Results" MODIFIED="1746831113424" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/StudentsAcademicClassification_ML/Normalization" />
+    <SUITE FILE_PATH="coverage/Project_ML$SVM.coverage" NAME="SVM Coverage Results" MODIFIED="1746828264288" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/StudentsAcademicClassification_ML/Training" />
   </component>
 </project>

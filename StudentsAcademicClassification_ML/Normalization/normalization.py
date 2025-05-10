@@ -1,116 +1,139 @@
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler, StandardScaler, LabelEncoder
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
-# Load training and testing datasets
-raw_train = pd.read_csv("../Raw_Datasets/train.csv")
-raw_test = pd.read_csv("../Raw_Datasets/test.csv")
+# Load the dataset
+train = pd.read_csv("../Raw_Datasets/train.csv", sep=';')
+test = pd.read_csv("../Raw_Datasets/test.csv", sep=';')
 
-# Define categorical and target column
+# Define categorical features and target column
 categorical_features = [
-    'Gender', 'Debtor', 'Scholarship holder', 'Displaced',
-    'Educational special needs', 'Tuition fees up to date',
-    'International', 'Marital status', 'Application order',
-    'Daytime/evening attendance\t'
+    'Marital status', 'Application mode', 'Application order', 'Course',
+    'Daytime/evening attendance\t', 'Previous qualification', 'Nacionality',
+    "Mother's qualification", "Father's qualification", "Mother's occupation",
+    "Father's occupation", 'Displaced', 'Educational special needs', 'Debtor',
+    'Tuition fees up to date', 'Gender', 'Scholarship holder', 'International'
 ]
 target_column = 'Target'
 
-# Encode target column as integer classes
-le = LabelEncoder()
-raw_train[target_column] = le.fit_transform(raw_train[target_column])
-raw_test[target_column] = le.transform(raw_test[target_column])
+# Identify raw numerical features (exclude categorical + target, ensure numeric type)
+raw_numerical_features = [
+    col for col in train.columns
+    if col not in categorical_features + [target_column]
+    and pd.api.types.is_numeric_dtype(train[col])
+]
 
-# Define normalization functions
+# ---------- Normalization Functions ----------
+
 def decimal_scaling(train_data, test_data, numerical_features):
     train_scaled = train_data.copy()
     test_scaled = test_data.copy()
     for feature in numerical_features:
         magnitude = 10 ** (np.ceil(np.log10(np.abs(train_data[feature]).max())))
+        if magnitude == 0:
+            magnitude = 1
         train_scaled[feature] = train_data[feature] / magnitude
-        if feature in test_data.columns:
-            test_scaled[feature] = test_data[feature] / magnitude
+        test_scaled[feature] = test_data[feature] / magnitude
     return train_scaled, test_scaled
 
 def min_max_normalizer(train_data, test_data, numerical_features):
-    min_max_scaler = MinMaxScaler()
+    scaler = MinMaxScaler()
     train_scaled = train_data.copy()
     test_scaled = test_data.copy()
-    train_scaled[numerical_features] = min_max_scaler.fit_transform(train_data[numerical_features])
-    test_scaled[numerical_features] = min_max_scaler.transform(test_data[numerical_features])
+    train_scaled[numerical_features] = scaler.fit_transform(train_data[numerical_features])
+    test_scaled[numerical_features] = scaler.transform(test_data[numerical_features])
     return train_scaled, test_scaled
 
 def z_score_normalizer(train_data, test_data, numerical_features):
-    standard_scaler = StandardScaler()
+    scaler = StandardScaler()
     train_scaled = train_data.copy()
     test_scaled = test_data.copy()
-    train_scaled[numerical_features] = standard_scaler.fit_transform(train_data[numerical_features])
-    test_scaled[numerical_features] = standard_scaler.transform(test_data[numerical_features])
+    train_scaled[numerical_features] = scaler.fit_transform(train_data[numerical_features])
+    test_scaled[numerical_features] = scaler.transform(test_data[numerical_features])
     return train_scaled, test_scaled
 
-# Identify numerical columns for raw normalization
-raw_train_features = [col for col in raw_train.columns if col not in categorical_features + [target_column]]
-raw_test_features = [col for col in raw_test.columns if col not in categorical_features + [target_column]]
+# ---------- Feature Engineering Function ----------
 
-# Normalize raw datasets using all 3 methods
+def feature_engineering(data, is_test=False):
+    data = data.copy()
+    data['total_units_enrolled'] = data['Curricular units 1st sem (enrolled)'] + data['Curricular units 2nd sem (enrolled)']
+    data['total_units_approved'] = data['Curricular units 1st sem (approved)'] + data['Curricular units 2nd sem (approved)']
+    data['total_evaluations'] = data['Curricular units 1st sem (evaluations)'] + data['Curricular units 2nd sem (evaluations)']
+    total_grade = data['Curricular units 1st sem (grade)'] + data['Curricular units 2nd sem (grade)']
+    data['approval_ratio'] = np.where(data['total_units_enrolled'] != 0, data['total_units_approved'] / data['total_units_enrolled'], 0)
+    data['avg_grade_per_eval'] = np.where(data['total_evaluations'] != 0, total_grade / data['total_evaluations'], 0)
+
+    # Drop original columns after combining
+    columns_to_drop = [
+        'Curricular units 1st sem (enrolled)', 'Curricular units 2nd sem (enrolled)',
+        'Curricular units 1st sem (approved)', 'Curricular units 2nd sem (approved)',
+        'Curricular units 1st sem (evaluations)', 'Curricular units 2nd sem (evaluations)',
+        'Curricular units 1st sem (grade)', 'Curricular units 2nd sem (grade)'
+    ]
+    data = data.drop(columns=columns_to_drop)
+
+    return data, columns_to_drop
+
+# ---------- Apply Raw Normalization ----------
+
 raw_normalized_datasets = {}
 
-raw_train_dec, raw_test_dec = decimal_scaling(raw_train, raw_test, raw_train_features)
-raw_normalized_datasets['decimal_scaled'] = (raw_train_dec, raw_test_dec)
+raw_train_decimal_scaled, raw_test_decimal_scaled = decimal_scaling(train, test, raw_numerical_features)
+raw_normalized_datasets['decimal_scaled'] = (raw_train_decimal_scaled, raw_test_decimal_scaled)
 
-raw_train_mm, raw_test_mm = min_max_normalizer(raw_train, raw_test, raw_train_features)
-raw_normalized_datasets['min_max_scaled'] = (raw_train_mm, raw_test_mm)
+raw_train_min_max_scaled, raw_test_min_max_scaled = min_max_normalizer(train, test, raw_numerical_features)
+raw_normalized_datasets['min_max_scaled'] = (raw_train_min_max_scaled, raw_test_min_max_scaled)
 
-raw_train_z, raw_test_z = z_score_normalizer(raw_train, raw_test, raw_train_features)
-raw_normalized_datasets['z_score_scaled'] = (raw_train_z, raw_test_z)
+raw_train_z_score_scaled, raw_test_z_score_scaled = z_score_normalizer(train, test, raw_numerical_features)
+raw_normalized_datasets['z_score_scaled'] = (raw_train_z_score_scaled, raw_test_z_score_scaled)
 
-# Save normalized raw datasets
-for norm_name, (train_set, test_set) in raw_normalized_datasets.items():
-    train_set.to_csv(f"../Normalized_Datasets/Train/raw_{norm_name}.csv", index=False)
-    test_set.to_csv(f"../Normalized_Datasets/Test/raw_{norm_name}.csv", index=False)
+# Save raw normalized datasets
+raw_output_path = "../Normalized_Datasets"
+for norm_name, (raw_train_set, raw_test_set) in raw_normalized_datasets.items():
+    raw_train_file_name = f"{raw_output_path}/Train/raw_{norm_name}.csv"
+    raw_test_file_name = f"{raw_output_path}/Test/raw_{norm_name}.csv"
+    raw_train_set.to_csv(raw_train_file_name, sep=';', index=False)
+    raw_test_set.to_csv(raw_test_file_name, sep=';', index=False)
 
-print("Raw normalized datasets saved.")
+# ---------- Apply Feature Engineering ----------
 
-# Define feature engineering function
-def feature_engineering(data):
-    data = data.copy()
-    epsilon = 1e-9
-    data['total_enrolled'] = data['Curricular units 1st sem (enrolled)'] + data['Curricular units 2nd sem (enrolled)']
-    data['total_approved'] = data['Curricular units 1st sem (approved)'] + data['Curricular units 2nd sem (approved)']
-    data['avg_grade'] = (data['Curricular units 1st sem (grade)'] + data['Curricular units 2nd sem (grade)']) / 2
-    data['approval_ratio'] = (
-        data['Curricular units 1st sem (approved)'] + data['Curricular units 2nd sem (approved)']
-    ) / (
-        data['Curricular units 1st sem (evaluations)'] + data['Curricular units 2nd sem (evaluations)'] + epsilon
-    )
-    return data
+train, dropped_columns = feature_engineering(train, is_test=False)
+test, _ = feature_engineering(test, is_test=True)
 
-# Apply feature engineering to both datasets
-train = feature_engineering(raw_train)
-test = feature_engineering(raw_test)
+# Update numerical features after dropping + adding engineered columns
+numerical_features = [
+    col for col in raw_numerical_features if col not in dropped_columns
+] + ['total_units_enrolled', 'total_units_approved', 'total_evaluations', 'approval_ratio', 'avg_grade_per_eval']
 
-# Re-encode Target just in case any transformation affected it
-train[target_column] = le.transform(train[target_column])
-test[target_column] = le.transform(test[target_column])
+# ---------- Apply Feature-Engineered Normalization ----------
 
-# Identify numerical columns after feature engineering
-train_features = [col for col in train.columns if col not in categorical_features + [target_column]]
-test_features = [col for col in test.columns if col not in categorical_features + [target_column]]
-
-# Normalize feature-engineered datasets using all 3 methods
 normalized_datasets = {}
 
-train_dec, test_dec = decimal_scaling(train, test, train_features)
-normalized_datasets['decimal_scaled'] = (train_dec, test_dec)
+train_decimal_scaled, test_decimal_scaled = decimal_scaling(train, test, numerical_features)
+normalized_datasets['decimal_scaled'] = (train_decimal_scaled, test_decimal_scaled)
 
-train_mm, test_mm = min_max_normalizer(train, test, train_features)
-normalized_datasets['min_max_scaled'] = (train_mm, test_mm)
+train_min_max_scaled, test_min_max_scaled = min_max_normalizer(train, test, numerical_features)
+normalized_datasets['min_max_scaled'] = (train_min_max_scaled, test_min_max_scaled)
 
-train_z, test_z = z_score_normalizer(train, test, train_features)
-normalized_datasets['z_score_scaled'] = (train_z, test_z)
+train_z_score_scaled, test_z_score_scaled = z_score_normalizer(train, test, numerical_features)
+normalized_datasets['z_score_scaled'] = (train_z_score_scaled, test_z_score_scaled)
 
-# Save normalized feature-engineered datasets
+# Save feature-engineered normalized datasets
+output_path = "../Normalized_Datasets"
 for norm_name, (train_set, test_set) in normalized_datasets.items():
-    train_set.to_csv(f"../Normalized_Datasets/Train/train_{norm_name}.csv", index=False)
-    test_set.to_csv(f"../Normalized_Datasets/Test/test_{norm_name}.csv", index=False)
+    train_file_name = f"{output_path}/Train/train_{norm_name}.csv"
+    test_file_name = f"{output_path}/Test/test_{norm_name}.csv"
+    train_set.to_csv(train_file_name, sep=';', index=False)
+    test_set.to_csv(test_file_name, sep=';', index=False)
 
-print("Feature-engineered normalized datasets saved.")
+# ---------- Final Summary ----------
+
+print("Normalization completed. Files saved:")
+print("Raw Normalized Datasets:")
+for norm_name in raw_normalized_datasets.keys():
+    print(f"- raw_train_{norm_name}.csv")
+    print(f"- raw_test_{norm_name}.csv")
+print("\nFeature-Engineered Normalized Datasets:")
+for norm_name in normalized_datasets.keys():
+    print(f"- train_{norm_name}.csv")
+    print(f"- test_{norm_name}.csv")
